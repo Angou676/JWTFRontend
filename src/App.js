@@ -1,23 +1,47 @@
-import logo from './logo.svg';
-import './App.css';
+// import logo from './logo.svg';
+// import './App.css';
+// import BasicTable from './components/BasicTable';
+// import LoginForm from './components/LoginForm';
+
+// function App() {
+//   return (
+//     <div className="App">
+//       <LoginForm />
+//       {/* <BasicTable/> */}
+//     </div>
+//   );
+// }
+
+// export default App;
+
+import React, { useState } from 'react';
+
+import axios from 'axios';
+import ProtectedContent from './components/ProtectedContent';
+import LoginForm from './components/LoginForm';
 
 function App() {
+  const [token, setToken] = useState(null);
+
+  const onLogin = (token) => {
+    setToken(token);
+  };
+
+  const onLogout = () => {
+    setToken(null);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <h1>JWT Authentication Example</h1>
+      {token ? (
+        <>
+          <button onClick={onLogout}>Logout</button>
+          <ProtectedContent />
+        </>
+      ) : (
+        <LoginForm onLogin={onLogin} />
+      )}
     </div>
   );
 }
